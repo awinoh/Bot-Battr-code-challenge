@@ -2,27 +2,17 @@ import React,{useState,useEffect} from "react";
 import BotCard from "./BotCard";
 
 
-function BotCollection() {
-  const [bots,setBots] = useState([])
+function BotCollection({bots, action, deleteBot}) {
 
-  async function fetchBots(){
-    await fetch(' http://localhost:8002/bots')
-    .then((response) => response.json())
-    .then((data) => setBots(data));
+  const addBot = (bot) => {
+    action(bot)
   }
-
-  useEffect(() => {
-    fetchBots()
-  
-    
-  }, [])
-  
 
   return (
     <div className="ui four column grid">
       <div className="row">
       {bots && bots.map(bot =>
-        <BotCard bot={bot}/>
+        <BotCard key={bot.id} bot={bot} action={addBot} deleteBot={deleteBot}/>
         )}
       </div>
     </div>
